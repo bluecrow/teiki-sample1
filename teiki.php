@@ -12,11 +12,11 @@ echo "==== TEIKI SAMPLE ver0.01 START ====\n";
 echo "==== data start ====\n";
 $data_file = file_get_contents('keizoku.cgi');
 if ($data_file === false) {
-  exit("data failed");
+  exit('data failed');
 }
 $data_line = preg_split('/\r?\n/', $data_file);
 if ($data_line === false) {
-  exit("split failed");
+  exit('split failed');
 }
 $data_eno = array();
 $data_len = count($data_line);
