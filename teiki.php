@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * 定期更新ゲームのサンプル
+ */
+
 define('APP_VERSION', '0.02');
 define('DIR_RESULT', 'result');
 define('TITLE_CHARACTOR_LIST', 'キャラクターリスト');
