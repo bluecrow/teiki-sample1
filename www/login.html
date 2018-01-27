@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>宣言画面 - 四本目の剣(4thSword)</title>
+<!--link rel="stylesheet" href="default.css"-->
+<style>
+.mini1 { width: 40px; }
+th, td { border: 1px black solid }
+</style>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<h1>宣言画面 - 四本目の剣(4thSword)</h1>
+<form action="login.html" method="post">
+<h2>宣言ボタン</h2>
+<input type="submit" value="宣言する">
+<h2>剣の選択</h2>
+■一試合目<br>
+壱の剣 <input id="sword1-1" name="sword1-1" type="number" min="0" max="20" class="mini1">
+<span id="sword1-1pow">【0】</span><span id="sword1-1name"></span>　
+弐の剣 <input id="sword1-2" name="sword1-2" type="number" min="0" max="20" class="mini1">
+<span id="sword1-2pow">【0】</span><span id="sword1-2name"></span><br>
+参の剣 <input id="sword1-3" name="sword1-3" type="number" min="0" max="20" class="mini1">
+<span id="sword1-3pow">【0】</span><span id="sword1-3name"></span>　
+死の剣 <input id="sword1-4" name="sword1-4" type="number" min="0" max="20" class="mini1">
+<span id="sword1-4pow">【0】</span><span id="sword1-4name"></span>　
+合計 <span id="swordsum1">0</span><br>
+■二試合目<br>
+壱の剣 <input id="sword2-1" name="sword2-1" type="number" min="0" max="20" class="mini1">
+<span id="sword2-1pow">【0】</span><span id="sword2-1name"></span>　
+弐の剣 <input id="sword2-2" name="sword2-2" type="number" min="0" max="20" class="mini1">
+<span id="sword2-2pow">【0】</span><span id="sword2-2name"></span><br>
+参の剣 <input id="sword2-3" name="sword2-3" type="number" min="0" max="20" class="mini1">
+<span id="sword2-3pow">【0】</span><span id="sword2-3name"></span>　
+死の剣 <input id="sword2-4" name="sword2-4" type="number" min="0" max="20" class="mini1">
+<span id="sword2-4pow">【0】</span><span id="sword2-4name"></span>　
+合計 <span id="swordsum2">0</span><br>
+■三試合目<br>
+壱の剣 <input id="sword3-1" name="sword3-1" type="number" min="0" max="20" class="mini1">
+<span id="sword3-1pow">【0】</span><span id="sword3-1name"></span>　
+弐の剣 <input id="sword3-2" name="sword3-2" type="number" min="0" max="20" class="mini1">
+<span id="sword3-2pow">【0】</span><span id="sword3-2name"></span><br>
+参の剣 <input id="sword3-3" name="sword3-3" type="number" min="0" max="20" class="mini1">
+<span id="sword3-3pow">【0】</span><span id="sword3-3name"></span>　
+死の剣 <input id="sword3-4" name="sword3-4" type="number" min="0" max="20" class="mini1">
+<span id="sword3-4pow">【0】</span><span id="sword3-4name"></span>　
+合計 <span id="swordsum3">0</span><br>
+<h2>アイテムリスト</h2>
+<table>
+  <tr><th>アイテムNo.</th><th>強さ</th><th>名前</th></tr>
+  <tr><td>1</td><td id="item1-pow">1</td><td id="item1-name">初期装備</td></tr>
+  <tr><td>2</td><td id="item2-pow">2</td><td id="item2-name">初期装備</td></tr>
+  <tr><td>3</td><td id="item3-pow">3</td><td id="item3-name">初期装備</td></tr>
+  <tr><td>4</td><td id="item4-pow">4</td><td id="item4-name">初期装備</td></tr>
+  <tr><td>5</td><td id="item5-pow">5</td><td id="item5-name">初期装備</td></tr>
+  <tr><td>6</td><td id="item6-pow">6</td><td id="item6-name">初期装備</td></tr>
+  <tr><td>7</td><td id="item7-pow">7</td><td id="item7-name">初期装備</td></tr>
+  <tr><td>8</td><td id="item8-pow">8</td><td id="item8-name">初期装備</td></tr>
+  <tr><td>9</td><td id="item9-pow">9</td><td id="item9-name">初期装備</td></tr>
+  <tr><td>10</td><td id="item10-pow">10</td><td id="item10-name">初期装備</td></tr>
+  <tr><td>11</td><td id="item11-pow">11</td><td id="item11-name">初期装備</td></tr>
+  <tr><td>12</td><td id="item12-pow">12</td><td id="item12-name">初期装備</td></tr>
+  <tr><td>13</td><td id="item13-pow"></td><td id="item13-name"></td></tr>
+  <tr><td>14</td><td id="item14-pow"></td><td id="item14-name"></td></tr>
+  <tr><td>15</td><td id="item15-pow"></td><td id="item15-name"></td></tr>
+  <tr><td>16</td><td id="item16-pow"></td><td id="item16-name"></td></tr>
+  <tr><td>17</td><td id="item17-pow"></td><td id="item17-name"></td></tr>
+  <tr><td>18</td><td id="item18-pow"></td><td id="item18-name"></td></tr>
+  <tr><td>19</td><td id="item19-pow"></td><td id="item19-name"></td></tr>
+  <tr><td>20</td><td id="item20-pow"></td><td id="item20-name"></td></tr>
+</table>
+<h2>宣言ボタン</h2>
+<input type="submit" value="宣言する"><br>
+<img src="4th_sword.png" alt="剣士ギル、罪科持ち（ギルティー）ギルが4本の剣を操っているイメージイラスト">
+</form>
+<script>
+function toNum(n) {
+  return n ? parseInt(n) : 0;
+}
+function itemPow(i) {
+  return toNum($('#item'+toNum(i)+'-pow').text());
+}
+function itemName(i) {
+  return $('#item'+toNum(i)+'-name').text();
+}
+function calc() {
+  console.log('calc');
+  //パワーと名前を更新
+  for (var c = 1; c <= 3; c++) {
+    for (var i = 1; i <= 4; i++) {
+      var name = '#sword'+c+'-'+i;
+      $(name+'pow').text('【' + itemPow($(name).val()) + '】');
+      $(name+'name').text(itemName($(name).val()));
+    }
+  }
+  //合計値を更新
+  var sum1 = itemPow($('#sword1-1').val()) + itemPow($('#sword1-2').val()) + itemPow($('#sword1-3').val()) + itemPow($('#sword1-4').val());
+  $('#swordsum1').text(sum1 ? sum1 : 0);
+  var sum2 = itemPow($('#sword2-1').val()) + itemPow($('#sword2-2').val()) + itemPow($('#sword2-3').val()) + itemPow($('#sword2-4').val());
+  $('#swordsum2').text(sum2 ? sum2 : 0);
+  var sum3 = itemPow($('#sword3-1').val()) + itemPow($('#sword3-2').val()) + itemPow($('#sword3-3').val()) + itemPow($('#sword3-4').val());
+  $('#swordsum3').text(sum3 ? sum3 : 0);
+}
+$(function() {
+  //テキストボックスに変更を加えたら再計算
+  $('input[type="number"]').change(function() {
+    calc();
+  });
+});
+</script>
+</body>
+</html>
