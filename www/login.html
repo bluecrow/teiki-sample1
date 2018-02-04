@@ -6,6 +6,7 @@
 <!--link rel="stylesheet" href="default.css"-->
 <style>
 .mini1 { width: 40px; }
+.mini2 { width: 80px; }
 th, td { border: 1px gray solid }
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -13,8 +14,14 @@ th, td { border: 1px gray solid }
 <body>
 <h1>宣言画面 - 四本目の剣(4thSword)</h1>
 <form action="login.html" method="post">
+<h2>ログインボタン</h2>
+Eno.<input type="number" min="1" value="" class="mini1">
+Password<input type="password" value="" class="mini2">
+<input id="login_button" type="button" value="ログイン">
+</form>
+<form id="sengen" action="login.html" method="post" style="display: none;">
 <h2>宣言ボタン</h2>
-<input type="submit" value="宣言する">
+<input type="button" value="宣言する">
 <h2>剣の選択</h2>
 ■一試合目<br>
 壱の剣 <input id="sword1-1" name="sword1-1" type="number" min="0" max="20" class="mini1">
@@ -71,9 +78,9 @@ th, td { border: 1px gray solid }
   <tr><td>20</td><td id="item20-pow"></td><td id="item20-name"></td></tr>
 </table>
 <h2>宣言ボタン</h2>
-<input type="submit" value="宣言する"><br>
-<img src="4th_sword.png" alt="剣士ギル、罪科持ち（ギルティー）ギルが4本の剣を操っているイメージイラスト">
+<input type="button" value="宣言する"><br>
 </form>
+<img src="4th_sword.png" alt="剣士ギル、罪科持ち（ギルティー）ギルが4本の剣を操っているイメージイラスト">
 <script>
 function toNum(n) {
   return n ? parseInt(n) : 0;
@@ -106,6 +113,10 @@ $(function() {
   //テキストボックスに変更を加えたら再計算
   $('input[type="number"]').change(function() {
     calc();
+  });
+  //ログインボタンを押したら宣言画面を表示
+  $('#login_button').on('click', function() {
+    $('#sengen').show();
   });
 });
 </script>
