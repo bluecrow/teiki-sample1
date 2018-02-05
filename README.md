@@ -4,7 +4,7 @@
 
 ## 方針
 
-四本目の剣（4thSword）というゲームを、www/login.htmlとAPIで動く、SPA（single page application）として実装していきます。
+四本目の剣（4thSword）というゲームを、wwwとAPIで動く、SPA（Single Page Application）として実装していきます。
 
 ## ファイルの説明
 
@@ -15,4 +15,5 @@
 
 ## 実行方法
 
-    php teiki.php
+    今ちょっと実装途中なので動かせる状態ではないです。以下にUIだけを置いています。
+    http://www.arkhamsoft.jp/4th_sword/
