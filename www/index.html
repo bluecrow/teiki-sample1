@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>新規登録画面 - 四本目の剣(4thSword)</title>
+<!--link rel="stylesheet" href="default.css"-->
+<style>
+.mini1 { width: 40px; }
+.mini2 { width: 80px; }
+.mini3 { width: 120px; }
+th, td { border: 1px gray solid }
+</style>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<h1>新規登録画面 - 四本目の剣(4thSword)</h1>
+<form id="entry" action="index.html" method="post">
+<h2>ログイン　キャラクターリスト</h2>
+<a href="login.html">ログインはこちら</a>　
+<a href="chara_list.html">キャラクターリストはこちら</a>
+<h2>新規登録</h2>
+本名<input id="name" name="name" type="text" min="1" value="" class="mini3">
+ニックネーム<input id="nick" name="nick" type="text" min="1" value="" class="mini3">
+Password<input id="password" name="password" type="password" value="" class="mini3"><br>
+※本名は後から変えられません<br>
+<input id="entry_button" type="button" value="新規登録"><br>
+<div id="error" style="color: red;"></div>
+</form>
+<img src="4th_sword.png" alt="剣士ギル、罪科持ち（ギルティー）のギルが4本の剣を操っているイメージイラスト">
+<script>
+$(function() {
+  //新規登録
+  $('#entry_button').on('click', function() {
+    var name = $('#name').val();
+    var nick = $('#nick').val();
+    var password = $('#password').val();
+    var error = '';
+    if (!name) {
+      error += "本名が入力されていません。<br>"
+    }
+    if (!nick) {
+      error += "ニックネームが入力されていません。<br>"
+    }
+    if (!password) {
+      error += "パスワードが入力されていません。<br>"
+    } else if (password.length < 8) {
+      error += "パスワードは8文字以上を推奨します。<br>"
+    }
+    $('#error').html(error);
+    if (error) {
+      return;
+    }
+    $.ajax({
+      type: 'POST',
+      url: 'api/entry.php',
+      data: $('#entry').serialize(),
+      dataType: 'json',
+      timeout: 10000
+    }).done(function(json) {
+      alert("Eno. " + json['Eno'] + " として登録が完了しました。");
+    }).fail(function() {
+      alert("何らかの理由で登録が失敗しました。");
+    });
+  });
+});
+</script>
+</body>
+</html>
