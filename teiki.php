@@ -4,13 +4,13 @@
  * 定期更新ゲームのサンプル
  */
 
-define('APP_VERSION', '0.02');
+define('APP_VERSION', '0.03');
 define('DIR_RESULT', 'result');
 define('TITLE_CHARACTOR_LIST', 'キャラクターリスト');
 
 // htmlでラップする
 function wrap_html($title, $body) {
-  return '<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>' . $title . '</title></head><body>' . $body . '</body></html>';
+  return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' . $title . '</title><link rel="stylesheet" href="default.css"></head><body>' . "\n" . $body . '</body></html>';
 }
 
 echo "==== TEIKI SAMPLE ver" . APP_VERSION . " START ====\n";
@@ -76,6 +76,7 @@ echo "==== result start ====\n";
 if (!file_exists(DIR_RESULT)) {
   mkdir(DIR_RESULT);
 }
+copy('default.css', DIR_RESULT . '/default.css');
 $charlist_log = '<h1>' . TITLE_CHARACTOR_LIST . '</h1>';
 $result_len = count($data_eno);
 for ($eno = 1; $eno < $result_len; $eno++) {
