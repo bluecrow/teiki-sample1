@@ -15,7 +15,7 @@ function wrap_html($title, $body) {
 
 // 戦闘を処理する
 function do_battle($eno, $eno2) {
-  global $name_map, $battle_log, $sword_list;
+  global $name_map, $nick_map, $battle_log, $sword_list;
   $sword_name = array();
   $sword_name[0] = '壱の剣!!';
   $sword_name[1] = '弐の剣!!';
@@ -24,7 +24,7 @@ function do_battle($eno, $eno2) {
   $life2 = 5;
   $sword_list1 = $sword_list[$eno];
   $sword_list2 = $sword_list[$eno2];
-  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $name_map[$eno] . 'とENo.' . $eno2 . ' ' . $name_map[$eno2] . "の一騎打ちだ!!</h2>";
+  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $nick_map[$eno] . 'とENo.' . $eno2 . ' ' . $nick_map[$eno2] . "の一騎打ちだ!!</h2>";
   for ($i = 0; $i < 12; $i += 4) {
     $win = 0;
     for ($j = 0; $j < 4; $j++) {
@@ -34,17 +34,19 @@ function do_battle($eno, $eno2) {
         if ($win == 0) {
           $battle_log[$eno] .= "引き分けのため死の剣は振るわれなかった……<br>";
         } else if ($win > 0) {
-          $battle_log[$eno] .= $name_map[$eno] . "の死の剣!! $sword1 のダメージを与えた!!<br>";
+          $battle_log[$eno] .= $nick_map[$eno] . "の死の剣!! $sword1 のダメージを与えた!!<br>";
           $life2 -= $sword1;
           if ($life2 <= 0) {
-            $battle_log[$eno] .= "あなたは" . $name_map[$eno2] . "に勝利した!!<br>";
+            $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+            $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に勝利した!!<br>";
             return;
           }
         } else if ($win < 0) {
-          $battle_log[$eno] .= $name_map[$eno2] . "の死の剣!! $sword2 のダメージを受けた!!<br>";
+          $battle_log[$eno] .= $nick_map[$eno2] . "の死の剣!! $sword2 のダメージを受けた!!<br>";
           $life1 -= $sword2;
           if ($life1 <= 0) {
-            $battle_log[$eno] .= "あなたは" . $name_map[$eno2] . "に敗北した……<br>";
+            $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+            $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に敗北した……<br>";
             return;
           }
         }
@@ -61,7 +63,14 @@ function do_battle($eno, $eno2) {
       }
     }
   }
-  $battle_log[$eno] .= "あなたは" . $name_map[$eno2] . "に引き分けた!!<br>";
+  $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+  if ($life1 == $life2) {
+    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に引き分けた!!<br>";
+  } else if ($life1 > $life2) {
+    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に勝った!!<br>";
+  } else if ($life1 < $life2) {
+    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に負けた!!<br>";
+  }
 }
 
 echo "==== TEIKI SAMPLE ver" . APP_VERSION . " START ====\n";
@@ -90,6 +99,7 @@ echo "==== data end ====\n";
 echo "==== action start ====\n";
 $result_log = array();
 $name_map = array();
+$nick_map = array();
 $sword_list = array();
 $battle_log = array();
 $action_len = count($data_eno[0]);
@@ -104,9 +114,10 @@ for ($action = 0; $action < $action_len; $action++) {
     }
     if ($action == 0) {
       $result_log[$eno] = '';
+      $name_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 1) {
       $result_log[$eno] .= "<h1>Eno.$eno " . htmlspecialchars($data_eno[$eno][0]) . "の一日</h1>\n";
-      $name_map[$eno] = htmlspecialchars($data_eno[$eno][0]);
+      $nick_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 2) {
       $result_log[$eno] .= "<h2>日記</h2><pre>" . htmlspecialchars($action_value) . "</pre>";
     } else if ($action == 3) {
@@ -122,7 +133,7 @@ for ($action = 0; $action < $action_len; $action++) {
     } else if ($action == 4) {
       $result_log[$eno] .= '<h2>戦闘</h2><a href="battle' . $eno . '.html">戦闘結果はこちら</a>';
       $sword_list[$eno] = preg_split('/：/', $action_value);
-      $battle_log[$eno] = '<h1>戦闘結果</h1>' . "\n";
+      $battle_log[$eno] = '<h1><a href="chara' . $eno . '.html">戦闘結果</a></h1>' . "\n";
     }
   }
 }
