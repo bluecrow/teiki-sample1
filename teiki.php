@@ -61,7 +61,7 @@ function do_battle($eno, $eno2) {
       }
     }
   }
-  return $battle_log[$eno];
+  $battle_log[$eno] .= "あなたは" . $name_map[$eno2] . "に引き分けた!!<br>";
 }
 
 echo "==== TEIKI SAMPLE ver" . APP_VERSION . " START ====\n";
@@ -154,6 +154,7 @@ for ($eno = 1; $eno < $data_len; $eno++) {
     do_battle($eno, $eno2);
   }
   $battle_log[$eno] .= '<br><a href="chara' . $eno . '.html">キャラページに戻る</a>';
+  $battle_log[$eno] .= '&nbsp;&nbsp;<a href="charalist.html">キャラクターリストに戻る</a>';
   file_put_contents('result/battle' . $eno . '.html', wrap_html('戦闘結果', $battle_log[$eno]));
 }
 
