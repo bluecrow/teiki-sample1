@@ -18,7 +18,7 @@ th, td { border: 1px gray solid }
 <img src="logo1.png" /><br>
 <form id="entry" action="index.html" method="post">
 <a href="login.html">継続画面はこちら</a>　
-<a href="chara_list.html">キャラクターリストはこちら</a>
+<a href="result/charalist.html">キャラクターリストはこちら</a>
 <h2>新規登録</h2>
 キャラクターの本名 <input id="name" name="name" type="text" min="1" value="" class="mini3">
 ニックネーム <input id="nick" name="nick" type="text" min="1" value="" class="mini3">
@@ -57,12 +57,13 @@ $(function() {
     }
     $.ajax({
       type: 'POST',
-      url: 'api/entry.php',
+      url: 'entry.php',
       data: $('#entry').serialize(),
       dataType: 'json',
       timeout: 10000
     }).done(function(json) {
-      alert("Eno. " + json['Eno'] + " として登録が完了しました。");
+      alert("ENo. " + json['ENo'] + " " + json['Name'] + "として登録が完了しました。");
+      location.replace('login.html');
     }).fail(function() {
       alert("何らかの理由で登録が失敗しました。");
     });
