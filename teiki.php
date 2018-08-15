@@ -4,7 +4,7 @@
  * 定期更新ゲームのサンプル
  */
 
-define('APP_VERSION', '0.06');
+define('APP_VERSION', '0.07');
 define('DIR_RESULT', 'result');
 
 // htmlでラップする
@@ -125,15 +125,7 @@ for ($action = 0; $action < $action_len; $action++) {
     } else if ($action == 2) {
       $result_log[$eno] .= "<h2>日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 3) {
-      $kunren_list = preg_split('/：/', $action_value);
-      $kunren_list = array_slice($kunren_list, 0, 5);
-      $kunren_log = '';
-      foreach ($kunren_list as $kunren) {
-        if ($kunren) {
-          $kunren_log .= "${kunren}を訓練した！\n";
-        }
-      }
-      $result_log[$eno] .= "<h2>訓練</h2>" . htmlspecialchars($data_eno[$eno][1]) . 'の訓練！<br><pre>' . htmlspecialchars($kunren_log) . "</pre>";
+      $result_log[$eno] .= "<h2>プロフィール</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 4) {
       $result_log[$eno] .= '<h2>戦闘</h2><a href="battle' . $eno . '.html">戦闘結果はこちら</a>';
       $sword_list[$eno] = preg_split('/：/', $action_value);
