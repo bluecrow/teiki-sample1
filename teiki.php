@@ -4,7 +4,7 @@
  * 定期更新ゲームのサンプル
  */
 
-define('APP_VERSION', '0.05');
+define('APP_VERSION', '0.06');
 define('DIR_RESULT', 'result');
 
 // htmlでラップする
@@ -120,7 +120,7 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] = '';
       $name_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 1) {
-      $result_log[$eno] .= "<h1>Eno.$eno " . htmlspecialchars($data_eno[$eno][0]) . "の一日</h1>\n";
+      $result_log[$eno] .= "<h1>ENo.$eno " . htmlspecialchars($data_eno[$eno][0]) . "の日誌</h1>\n";
       $nick_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 2) {
       $result_log[$eno] .= "<h2>日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
@@ -141,7 +141,9 @@ for ($action = 0; $action < $action_len; $action++) {
     }
   }
 }
-//print_r($result_log);
+for ($eno = 1; $eno < $data_len; $eno++) {
+  $result_log[$eno] .= '<h2>リンク</h2><a href="charalist.html">キャラクターリスト</a>';
+}
 echo "==== action end ====\n";
 
 // フォルダ作製等、前準備
@@ -178,18 +180,20 @@ for ($eno = 1; $eno < $data_len; $eno++) {
   }
   $battle_log[$eno] .= '<br>' . $battle_result[$eno][2] . '勝 ' . $battle_result[$eno][0] . '敗 ' . $battle_result[$eno][1] . '引き分け';
   $battle_log[$eno] .= '<br><br><a href="chara' . $eno . '.html">キャラページに戻る</a>';
-  $battle_log[$eno] .= '&nbsp;&nbsp;<a href="charalist.html">キャラクターリストに戻る</a>';
-  file_put_contents('result/battle' . $eno . '.html', wrap_html('戦闘結果', $battle_log[$eno]));
+  $battle_log[$eno] .= '&nbsp;&nbsp;<a href="charalist.html">キャラクターリスト</a>';
+  file_put_contents(DIR_RESULT . '/battle' . $eno . '.html', wrap_html('戦闘結果', $battle_log[$eno]));
 }
 
 //ランキング
 $ranking_log = '<h1>ランキング</h1>';
 arsort($ranking);
+$no = 1;
 foreach ($ranking as $eno => $point) {
-  $ranking_log .= '<a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point<br>";
+  $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point<br>";
+  $no++;
 }
-$ranking_log .= '<br><a href="charalist.html">キャラクターリストに戻る</a>';
-file_put_contents('result/ranking.html', wrap_html('ランキング', $ranking_log));
+$ranking_log .= '<br><a href="charalist.html">キャラクターリスト</a>';
+file_put_contents(DIR_RESULT . '/ranking.html', wrap_html('ランキング', $ranking_log));
 
 echo "==== battle end ====\n";
 
@@ -205,7 +209,7 @@ for ($eno = 1; $eno < $result_len; $eno++) {
   file_put_contents('result/chara' . $eno . '.html', wrap_html("Eno.$eno " . htmlspecialchars($data_eno[$eno][0]) . 'の一日', $result_log[$eno]));
   $charlist_log .= '<a href="chara' . $eno . '.html">' . "Eno.$eno " . htmlspecialchars($data_eno[$eno][0]) . "</a><br>\n";
 }
-$charlist_log .= '<br><a href="ranking.html">ランキングに戻る</a>';
+$charlist_log .= '<br><a href="ranking.html">ランキング</a>';
 file_put_contents('result/charalist.html', wrap_html('キャラクターリスト', $charlist_log));
 echo "==== result end ====\n";
 
