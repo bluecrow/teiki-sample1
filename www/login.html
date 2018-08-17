@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>継続画面 - 四本目の剣(4thSword)</title>
-<link rel="stylesheet" href="default.css">
+<!--link rel="stylesheet" href="default.css"-->
 <style>
 .mini1 { width: 40px; }
 .mini2 { width: 80px; }
@@ -16,19 +16,21 @@ th, td { border: 1px gray solid }
 <h1>継続画面 - 四本目の剣(4thSword)</h1>
 <div style="color: red">現在開発中です</div>
 <img src="logo1.png" /><br>
-<form id="login" action="login.html" method="post">
 <a href="index.html">新規登録はこちら</a>　
 <a href="result/charalist.html">キャラクターリストはこちら</a>
+<form id="login" action="login.php" method="post">
 <h2>ログインボタン</h2>
-Eno.<input type="number" min="1" value="" class="mini2">
-Password<input type="password" value="" class="mini3">
+ENo.<input id="eno" name="eno" type="number" min="1" value="" class="mini2">
+Password<input id="password" name="password"  type="password" value="" class="mini3">
 <input id="login_button" type="button" value="ログイン">
 </form>
+<div id="error" style="color: red;"></div>
 <div id="otsukare" style="display: none; font-size: 24px;">
 <br><br>
 宣言完了です。お疲れ様でした。
 </div> 
 <form id="sengen" action="login.html" method="post" style="display: none;">
+ENo.<span id="eno_show"></span> <span id="name_show"></span>（ニックネーム：<span id="nick_show"></span>）
 <h2>宣言ボタン</h2>
 <input class="sengen" type="button" value="宣言する">
 <h2>日記</h2>
@@ -66,6 +68,10 @@ Password<input type="password" value="" class="mini3">
 死の剣 <input id="sword3-4" name="sword3-4" type="number" min="0" max="20" class="mini1">
 　
 合計 <span id="swordsum3">0</span><br>
+<h2>プロフィール</h2>
+<textarea cols="80" rows="5" id="profile_input"></textarea>
+<h2>プロフィールのプレビュー</h2>
+<pre id="profile_preview"></pre>
 <h2>宣言ボタン</h2>
 <input class="sengen2" type="button" value="宣言する"><br>
 </form>
@@ -79,7 +85,6 @@ function toNum(n) {
   return n ? parseInt(n) : 0;
 }
 function calc() {
-  console.log('calc');
   //パワーと名前を更新
   for (var c = 1; c <= 3; c++) {
     for (var i = 1; i <= 4; i++) {
@@ -97,6 +102,9 @@ function calc() {
 function changeDiary() {
   $('#diary_preview').text($('#diary_input').val());
 }
+function changeProfile() {
+  $('#profile_preview').text($('#profile_input').val());
+}
 $(function() {
   //テキストボックスに変更を加えたら再計算
   $('input[type="number"]').on('change keyup paste', function() {
@@ -104,9 +112,37 @@ $(function() {
   });
   //ログインボタンを押したら宣言画面を表示
   $('#login_button').on('click', function() {
-    $('#login').hide();
-    $('#otsukare').hide();
-    $('#sengen').show();
+    var eno = $('#eno').val();
+    var password = $('#password').val();
+    var error = '';
+    if (!eno) {
+      error += "ENoが入力されていません。<br>"
+    }
+    if (!password) {
+      error += "パスワードが入力されていません。<br>"
+    }
+    $('#error').html(error);
+    if (error) {
+      return;
+    }
+    $.ajax({
+      type: 'POST',
+      url: 'login.php',
+      data: $('#login').serialize(),
+      dataType: 'json',
+      timeout: 10000
+    }).done(function(json) {
+      $('#login').hide();
+      $('#otsukare').hide();
+      $('#sengen').show();
+      $('#eno_show').text(json['ENo']);
+      $('#name_show').text(json['name']);
+      $('#nick_show').text(json['nick']);
+      $('#diary_input').val(json['diary']);
+      $('#profile_input').val(json['profile']);
+    }).fail(function() {
+      alert("何らかの理由でログインが失敗しました。");
+    });
   });
   $('.sengen').on('click', function() {
     $('#login').show();
@@ -116,6 +152,10 @@ $(function() {
   //日記のプレビュー
   $('#diary_input').on('change keypress keyup', function() {
     changeDiary();
+  });
+  //プロフィールのプレビュー
+  $('#profile_input').on('change keypress keyup', function() {
+    changeProfile();
   });
 });
 </script>
