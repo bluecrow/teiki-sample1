@@ -19,9 +19,9 @@ th, td { border: 1px gray solid }
 <a href="index.html">新規登録はこちら</a>　
 <a href="result/charalist.html">キャラクターリストはこちら</a>
 <form id="login" action="login.php" method="post">
-<h2>ログインボタン</h2>
+<h2>ログイン</h2>
 ENo.<input id="eno" name="eno" type="number" min="1" value="" class="mini2">
-Password<input id="password" name="password"  type="password" value="" class="mini3">
+Password <input id="password" name="password"  type="password" value="" class="mini3">
 <input id="login_button" type="button" value="ログイン">
 </form>
 <div id="error" style="color: red;"></div>
@@ -30,12 +30,13 @@ Password<input id="password" name="password"  type="password" value="" class="mi
 宣言完了です。お疲れ様でした。
 </div> 
 <form id="sengen" action="login.html" method="post" style="display: none;">
-ENo.<span id="eno_show"></span> <span id="name_show"></span>（ニックネーム：<span id="nick_show"></span>）
+<h2>ENo.<span id="eno_show"></span> <span id="name_show"></span>（ニックネーム：<span id="nick_show"></span>）</h2>
+<input id="eno_hidden" name="eno" type="hidden" value="" />
+<input id="password_hidden" name="password" type="hidden" value="" />
 <h2>宣言ボタン</h2>
 <input class="sengen" type="button" value="宣言する">
 <h2>日記</h2>
-<textarea cols="80" rows="5" id="diary_input"></textarea>
-<h2>日記のプレビュー</h2>
+<textarea cols="80" rows="5" id="diary_input"></textarea><br>
 <pre id="diary_preview"></pre>
 <h2>剣の選択</h2>
 ■一試合目<br>
@@ -69,8 +70,7 @@ ENo.<span id="eno_show"></span> <span id="name_show"></span>（ニックネー�
 　
 合計 <span id="swordsum3">0</span><br>
 <h2>プロフィール</h2>
-<textarea cols="80" rows="5" id="profile_input"></textarea>
-<h2>プロフィールのプレビュー</h2>
+<textarea cols="80" rows="5" id="profile_input"></textarea><br>
 <pre id="profile_preview"></pre>
 <h2>宣言ボタン</h2>
 <input class="sengen2" type="button" value="宣言する"><br>
@@ -100,10 +100,30 @@ function calc() {
   $('#swordsum3').text(sum3 ? sum3 : 0);
 }
 function changeDiary() {
-  $('#diary_preview').text($('#diary_input').val());
+  $('#diary_preview').text($('#diary_input').val().replace(/\+BR\+/g, "\r\n"));
 }
 function changeProfile() {
-  $('#profile_preview').text($('#profile_input').val());
+  $('#profile_preview').text($('#profile_input').val().replace(/\+BR\+/g, "\r\n"));
+}
+function applySword(sword) {
+  var sword_list = sword.split('：');
+  for (var i = 0; i < 12; i++) {
+    if (sword_list[i] === undefined) {
+      sword_list[i] = 0;
+    }
+  }
+  $('#sword1-1').val(sword_list[0]);
+  $('#sword1-2').val(sword_list[1]);
+  $('#sword1-3').val(sword_list[2]);
+  $('#sword1-4').val(sword_list[3]);
+  $('#sword2-1').val(sword_list[4]);
+  $('#sword2-2').val(sword_list[5]);
+  $('#sword2-3').val(sword_list[6]);
+  $('#sword2-4').val(sword_list[7]);
+  $('#sword3-1').val(sword_list[8]);
+  $('#sword3-2').val(sword_list[9]);
+  $('#sword3-3').val(sword_list[10]);
+  $('#sword3-4').val(sword_list[11]);
 }
 $(function() {
   //テキストボックスに変更を加えたら再計算
@@ -138,8 +158,14 @@ $(function() {
       $('#eno_show').text(json['ENo']);
       $('#name_show').text(json['name']);
       $('#nick_show').text(json['nick']);
+      $('#eno_hidden').text(json['ENo']);
+      $('#password_hidden').text($('#password').val());
       $('#diary_input').val(json['diary']);
       $('#profile_input').val(json['profile']);
+      changeDiary();
+      changeProfile();
+      applySword(json['sword']);
+      calc();
     }).fail(function() {
       alert("何らかの理由でログインが失敗しました。");
     });
