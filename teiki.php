@@ -47,16 +47,16 @@ function do_battle($eno, $eno2) {
         } else if ($win > 0) {
           $battle_log[$eno] .= $nick_map[$eno] . "の死の剣!! $sword1 のダメージを与えた!!<br>";
           $life2 -= $sword1;
+          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
           if ($life2 <= 0) {
-            $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
             $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に勝利した!!<br>";
             return 2;
           }
         } else if ($win < 0) {
           $battle_log[$eno] .= $nick_map[$eno2] . "の死の剣!! $sword2 のダメージを受けた!!<br>";
           $life1 -= $sword2;
+          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
           if ($life1 <= 0) {
-            $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
             $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に敗北した……<br>";
             return 0;
           }
