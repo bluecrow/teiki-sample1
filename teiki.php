@@ -29,6 +29,12 @@ function do_battle($eno, $eno2) {
     for ($j = 0; $j < 4; $j++) {
       $sword1 = $sword_list1[$i + $j];
       $sword2 = $sword_list2[$i + $j];
+      if ($sword1 == null || $sword1 == "") {
+        $sword1 = 0;
+      }
+      if ($sword2 == null || $sword2 == "") {
+        $sword2 = 0;
+      }
       if ($j < 3) {
         //壱、弐、参の剣
         if ($sword1 == $sword2) {
