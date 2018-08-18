@@ -4,12 +4,29 @@
  * 定期更新ゲームのサンプル
  */
 
-define('APP_VERSION', '0.07');
+define('APP_VERSION', '0.08');
 define('DIR_RESULT', 'result');
 
 // htmlでラップする
 function wrap_html($title, $body) {
   return '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>' . $title . '</title><link rel="stylesheet" href="default.css"></head><body>' . "\n" . $body . '</body></html>';
+}
+
+function bubble_sort($array) {
+  // 要素数回繰り返し
+  for($i = 0; $i < count($array); $i++) {
+    // 要素数-1回繰り返し
+    for($n = 1; $n < count($array); $n++) {
+      // 隣接要素を比較し大小が逆なら入替える
+      if($array[$n-1][0] < $array[$n][0])
+      {
+        $temp = $array[$n];
+        $array[$n] = $array[$n-1];
+        $array[$n-1] = $temp;
+      }
+    }
+  }
+  return $array;
 }
 
 // 戦闘を処理する
@@ -129,7 +146,7 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] .= "<h1>ENo.$eno " . htmlspecialchars($data_eno[$eno][0]) . "の日誌</h1>\n";
       $nick_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 2) {
-      $result_log[$eno] .= "<h2>日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
+      $result_log[$eno] .= "<h2>" . $nick_map[$eno] . "の日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 3) {
       $result_log[$eno] .= "<h2>プロフィール</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 4) {
@@ -174,7 +191,8 @@ for ($eno = 1; $eno < $data_len; $eno++) {
     $win_or_lose = do_battle($eno, $eno2);
     //勝敗結果
     $battle_result[$eno][$win_or_lose]++;
-    $ranking[$eno] += $win_or_lose;
+    $ranking[$eno][0] += $win_or_lose;
+    $ranking[$eno][1] = $eno;
   }
   $battle_log[$eno] .= '<br>' . $battle_result[$eno][2] . '勝 ' . $battle_result[$eno][0] . '敗 ' . $battle_result[$eno][1] . '引き分け';
   $battle_log[$eno] .= '<br><br><a href="chara' . $eno . '.html">キャラページに戻る</a>';
@@ -184,9 +202,15 @@ for ($eno = 1; $eno < $data_len; $eno++) {
 
 //ランキング
 $ranking_log = '<h1>ランキング</h1>';
-arsort($ranking);
+$ranking_log .= '勝利 2point　引き分け 1point　としてランキングを作成<br><br>';
+$ranking = bubble_sort($ranking);
 $no = 1;
-foreach ($ranking as $eno => $point) {
+for ($i = 0; $i < count($ranking); $i++) {
+  $point = $ranking[$i][0];
+  $eno = $ranking[$i][1];
+  if ($name_map[$eno] == '') {
+    continue;
+  }
   $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point<br>";
   $no++;
 }
