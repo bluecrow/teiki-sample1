@@ -10,8 +10,10 @@
 
 - keizoku.cgi TSV形式の継続データ
 - teiki.php 定期更新ゲーム本体
-- www/login.html 宣言画面のひな形
-- api/xxx APIを置いていく予定です
+- www/index.html 新規登録画面
+- www/login.html 継続画面
+- www/xxx.php APIを置いていく予定です
+- www/xxx.cgi データです
 
 ## 実行方法
 
