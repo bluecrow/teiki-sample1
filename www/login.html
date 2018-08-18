@@ -37,7 +37,7 @@ Password <input id="password" name="password"  type="password" value="" class="m
 <input id="sword_hidden" name="sword" type="hidden" value="" />
 <input id="diary_hidden" name="diary" type="hidden" value="" />
 <input id="profile_hidden" name="profile" type="hidden" value="" />
-ニックネーム：<input id="nick_hidden" name="nick" type="text" value="" />
+ニックネーム：<input id="nick" name="nick" type="text" value="" />
 <h2>宣言ボタン</h2>
 <input class="sengen" type="button" value="宣言する">
 <h2>日記</h2>
@@ -87,9 +87,11 @@ Password <input id="password" name="password"  type="password" value="" class="m
 剣士ギル、罪科持ち（ギルティー）のギルが4本の剣を操っているイメージイラスト<br>
 <img src="4th_sword.png" alt="剣士ギル、罪科持ち（ギルティー）のギルが4本の剣を操っているイメージイラスト">
 <script>
+//数値に変える
 function toNum(n) {
   return n ? parseInt(n) : 0;
 }
+//再計算する
 function calc() {
   //パワーと名前を更新
   for (var c = 1; c <= 3; c++) {
@@ -105,12 +107,15 @@ function calc() {
   var sum3 = toNum($('#sword3-1').val()) + toNum($('#sword3-2').val()) + toNum($('#sword3-3').val()) + toNum($('#sword3-4').val());
   $('#swordsum3').text(sum3 ? sum3 : 0);
 }
+//日記を反映
 function changeDiary() {
   $('#diary_preview').text($('#diary_input').val().replace(/\+BR\+/g, "\r\n"));
 }
+//プロフィールを反映
 function changeProfile() {
   $('#profile_preview').text($('#profile_input').val().replace(/\+BR\+/g, "\r\n"));
 }
+//読み込んだ剣を適用する
 function applySword(sword) {
   var sword_list = sword.split('：');
   for (var i = 0; i < 12; i++) {
@@ -131,6 +136,7 @@ function applySword(sword) {
   $('#sword3-3').val(sword_list[10]);
   $('#sword3-4').val(sword_list[11]);
 }
+//剣を「：」で結合する
 function joinSword() {
   var sword_list = [];
   sword_list[0] = toNum($('#sword1-1').val() || 0);
@@ -148,6 +154,7 @@ function joinSword() {
   $('#sword_hidden').val(sword_list.join('：'));
   return sword_list;
 }
+//不正な剣か？
 function isBadSword(v) {
   for (var i = 0; i <= 20; i++) {
     if (v == i) {
@@ -156,6 +163,7 @@ function isBadSword(v) {
   }
   return true;
 }
+//不正な剣のリストか？
 function isBadSwordList(sword_list) {
   if (
     isBadSword(sword_list[0]) || isBadSword(sword_list[1]) || isBadSword(sword_list[2]) || isBadSword(sword_list[3])
@@ -171,7 +179,7 @@ function isBadSwordList(sword_list) {
   }
 }
 $(function() {
-  //テキストボックスに変更を加えたら再計算
+  //剣に変更を加えたら再計算
   $('input[type="number"]').on('change keyup paste', function() {
     calc();
   });
@@ -206,7 +214,7 @@ $(function() {
       $('#eno_hidden').val(json['ENo']);
       $('#password_hidden').val($('#password').val());
       $('#name_hidden').val(json['name']);
-      $('#nick_hidden').val(json['nick']);
+      $('#nick').val(json['nick']);
       $('#diary_input').val(json['diary'].replace(/\+BR\+/g, "\r\n"));
       $('#profile_input').val(json['profile'].replace(/\+BR\+/g, "\r\n"));
       changeDiary();
