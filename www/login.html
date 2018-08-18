@@ -24,7 +24,7 @@ ENo.<input id="eno" name="eno" type="number" min="1" value="" class="mini2">
 Password <input id="password" name="password"  type="password" value="" class="mini3">
 <input id="login_button" type="button" value="ログイン">
 </form>
-<div id="error" style="color: red;"></div>
+<div id="error_login" style="color: red;"></div>
 <div id="otsukare" style="display: none; font-size: 24px;">
 <br><br>
 宣言完了です。お疲れ様でした。
@@ -35,13 +35,16 @@ Password <input id="password" name="password"  type="password" value="" class="m
 <input id="password_hidden" name="password" type="hidden" value="" />
 <input id="name_hidden" name="name" type="hidden" value="" />
 <input id="sword_hidden" name="sword" type="hidden" value="" />
+<input id="diary_hidden" name="diary" type="hidden" value="" />
+<input id="profile_hidden" name="profile" type="hidden" value="" />
 ニックネーム：<input id="nick_hidden" name="nick" type="text" value="" />
 <h2>宣言ボタン</h2>
 <input class="sengen" type="button" value="宣言する">
 <h2>日記</h2>
-<textarea cols="80" rows="5" id="diary_input" name="diary"></textarea><br>
+<textarea cols="80" rows="5" id="diary_input" name="diary_input"></textarea><br>
 <pre id="diary_preview"></pre>
 <h2>剣の選択</h2>
+<div id="error_sword" style="color: red;"></div>
 ■一試合目<br>
 壱の剣 <input id="sword1-1" type="number" min="0" max="20" class="mini1">
 　
@@ -73,7 +76,7 @@ Password <input id="password" name="password"  type="password" value="" class="m
 　
 合計 <span id="swordsum3">0</span><br>
 <h2>プロフィール</h2>
-<textarea cols="80" rows="5" id="profile_input" name="profile"></textarea><br>
+<textarea cols="80" rows="5" id="profile_input" name="profile_input"></textarea><br>
 <pre id="profile_preview"></pre>
 <h2>宣言ボタン</h2>
 <input class="sengen" type="button" value="宣言する"><br>
@@ -130,19 +133,42 @@ function applySword(sword) {
 }
 function joinSword() {
   var sword_list = [];
-  sword_list[0] = $('#sword1-1').val() || 0;
-  sword_list[1] = $('#sword1-2').val() || 0;
-  sword_list[2] = $('#sword1-3').val() || 0;
-  sword_list[3] = $('#sword1-4').val() || 0;
-  sword_list[4] = $('#sword2-1').val() || 0;
-  sword_list[5] = $('#sword2-2').val() || 0;
-  sword_list[6] = $('#sword2-3').val() || 0;
-  sword_list[7] = $('#sword2-4').val() || 0;
-  sword_list[8] = $('#sword3-1').val() || 0;
-  sword_list[9] = $('#sword3-2').val() || 0;
-  sword_list[10] = $('#sword3-3').val() || 0;
-  sword_list[11] = $('#sword3-4').val() || 0;
+  sword_list[0] = toNum($('#sword1-1').val() || 0);
+  sword_list[1] = toNum($('#sword1-2').val() || 0);
+  sword_list[2] = toNum($('#sword1-3').val() || 0);
+  sword_list[3] = toNum($('#sword1-4').val() || 0);
+  sword_list[4] = toNum($('#sword2-1').val() || 0);
+  sword_list[5] = toNum($('#sword2-2').val() || 0);
+  sword_list[6] = toNum($('#sword2-3').val() || 0);
+  sword_list[7] = toNum($('#sword2-4').val() || 0);
+  sword_list[8] = toNum($('#sword3-1').val() || 0);
+  sword_list[9] = toNum($('#sword3-2').val() || 0);
+  sword_list[10] = toNum($('#sword3-3').val() || 0);
+  sword_list[11] = toNum($('#sword3-4').val() || 0);
   $('#sword_hidden').val(sword_list.join('：'));
+  return sword_list;
+}
+function isBadSword(v) {
+  for (var i = 0; i <= 20; i++) {
+    if (v == i) {
+      return false;
+    }
+  }
+  return true;
+}
+function isBadSwordList(sword_list) {
+  if (
+    isBadSword(sword_list[0]) || isBadSword(sword_list[1]) || isBadSword(sword_list[2]) || isBadSword(sword_list[3])
+    || (sword_list[0] + sword_list[1] + sword_list[2] + sword_list[3]) > 20
+    || isBadSword(sword_list[4]) || isBadSword(sword_list[5]) || isBadSword(sword_list[6]) || isBadSword(sword_list[7])
+    || (sword_list[4] + sword_list[5] + sword_list[6] + sword_list[7]) > 20
+    || isBadSword(sword_list[8]) || isBadSword(sword_list[9]) || isBadSword(sword_list[10]) || isBadSword(sword_list[11])
+    || (sword_list[8] + sword_list[9] + sword_list[10] + sword_list[11]) > 20
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 }
 $(function() {
   //テキストボックスに変更を加えたら再計算
@@ -160,7 +186,7 @@ $(function() {
     if (!password) {
       error += "パスワードが入力されていません。<br>"
     }
-    $('#error').html(error);
+    $('#error_login').html(error);
     if (error) {
       return;
     }
@@ -181,18 +207,39 @@ $(function() {
       $('#password_hidden').val($('#password').val());
       $('#name_hidden').val(json['name']);
       $('#nick_hidden').val(json['nick']);
-      $('#diary_input').val(json['diary']);
-      $('#profile_input').val(json['profile']);
+      $('#diary_input').val(json['diary'].replace(/\+BR\+/g, "\r\n"));
+      $('#profile_input').val(json['profile'].replace(/\+BR\+/g, "\r\n"));
       changeDiary();
       changeProfile();
       applySword(json['sword']);
       calc();
     }).fail(function() {
-      alert("何らかの理由でログインが失敗しました。");
+      $('#error_login').html("何らかの理由でログインが失敗しました。");
     });
   });
   $('.sengen').on('click', function() {
-    joinSword();
+    var sword_list = joinSword();
+    if (isBadSwordList(sword_list)) {
+      var error = "壱の剣、弐の剣、参の剣、死の剣の合計値は一試合につき20以下である必要があります";
+      $('#error_sword').html(error);
+      return;
+    }
+    var diary = $('#diary_input').val().replace(/\r?\n/g, "+BR+");
+    if (diary.length > 4000) {
+      var error = "日記は4000字までです";
+      $('#error_sword').html(error);
+      return;
+    } else {
+      $('#diary_hidden').val(diary);
+    }
+    var profile = $('#profile_input').val().replace(/\r?\n/g, "+BR+");
+    if (profile.length > 4000) {
+      var error = "プロフィールは4000字までです";
+      $('#error_sword').html(error);
+      return;
+    } else {
+      $('#profile_hidden').val(profile);
+    }
     $.ajax({
       type: 'POST',
       url: 'keizoku.php',
@@ -203,8 +250,10 @@ $(function() {
       $('#login').show();
       $('#otsukare').show();
       $('#sengen').hide();
+      $('#error_login').html('');
+      $('#error_sword').html('');
     }).fail(function() {
-      alert("何らかの理由で宣言が失敗しました。");
+      $('#error_sword').html('何らかの理由で宣言が失敗しました。');
     });
   });
   //日記のプレビュー
