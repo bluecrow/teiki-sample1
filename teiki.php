@@ -4,7 +4,7 @@
  * 定期更新ゲームのサンプル
  */
 
-define('APP_VERSION', '0.08');
+define('APP_VERSION', '0.09');
 define('DIR_RESULT', 'result');
 
 // htmlでラップする
@@ -150,8 +150,12 @@ for ($action = 0; $action < $action_len; $action++) {
     } else if ($action == 3) {
       $result_log[$eno] .= "<h2>プロフィール</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 4) {
-      $result_log[$eno] .= '<h2>戦闘</h2><a href="battle' . $eno . '.html">戦闘結果はこちら</a>';
+      $result_log[$eno] .= '<h2>剣と戦闘</h2>';
       $sword_list[$eno] = preg_split('/：/', $action_value);
+      $result_log[$eno] .= '第一試合： 壱の剣 ' . $sword_list[$eno][0] . '　弐の剣 ' . $sword_list[$eno][1] . '　参の剣 ' . $sword_list[$eno][2] . '　死の剣 ' . $sword_list[$eno][3] . '<br>';
+      $result_log[$eno] .= '第二試合： 壱の剣 ' . $sword_list[$eno][4] . '　弐の剣 ' . $sword_list[$eno][5] . '　参の剣 ' . $sword_list[$eno][6] . '　死の剣 ' . $sword_list[$eno][7] . '<br>';
+      $result_log[$eno] .= '第三試合： 壱の剣 ' . $sword_list[$eno][8] . '　弐の剣 ' . $sword_list[$eno][9] . '　参の剣 ' . $sword_list[$eno][10] . '　死の剣 ' . $sword_list[$eno][11] . '<br>';
+      $result_log[$eno] .= '<br><a href="battle' . $eno . '.html">戦闘結果はこちら</a>';
       $battle_log[$eno] = '<h1><a href="chara' . $eno . '.html">戦闘結果</a></h1>' . "\n";
     }
   }
@@ -202,7 +206,6 @@ for ($eno = 1; $eno < $data_len; $eno++) {
 
 //ランキング
 $ranking_log = '<h1>ランキング</h1>';
-$ranking_log .= '勝利 2point　引き分け 1point　としてランキングを作成<br><br>';
 $ranking = bubble_sort($ranking);
 $no = 1;
 for ($i = 0; $i < count($ranking); $i++) {
@@ -214,6 +217,7 @@ for ($i = 0; $i < count($ranking); $i++) {
   $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point<br>";
   $no++;
 }
+$ranking_log .= '<br>※勝利 2point　引き分け 1point　としてランキングを作成<br>';
 $ranking_log .= '<br><a href="charalist.html">キャラクターリスト</a>';
 file_put_contents(DIR_RESULT . '/ranking.html', wrap_html('ランキング', $ranking_log));
 
