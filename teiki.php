@@ -6,6 +6,7 @@
 
 define('APP_VERSION', '0.10');
 define('DIR_RESULT', 'result');
+define('TOP_TITLE', ' - 四本目の剣(4thSword)');
 
 // htmlでラップする
 function wrap_html($title, $body) {
@@ -174,7 +175,7 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] = '';
       $name_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 1) {
-      $result_log[$eno] .= "<h1>ENo.$eno " . htmlspecialchars($data_eno[$eno][0]) . 'の日誌</h1><a href="../index.html"><img src="../logo1.png" /></a><br>' . "\n";
+      $result_log[$eno] .= "<h1>ENo.$eno " . htmlspecialchars($data_eno[$eno][0]) . 'の日誌' .  TOP_TITLE . '</h1><a href="../index.html"><img src="../logo1.png" /></a><br>' . "\n";
       $nick_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 2) {
       $result_log[$eno] .= "<h2>" . $nick_map[$eno] . "の日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
@@ -187,12 +188,12 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] .= '第二試合： 壱の剣 ' . $sword_list[$eno][4] . '　弐の剣 ' . $sword_list[$eno][5] . '　参の剣 ' . $sword_list[$eno][6] . '　死の剣 ' . $sword_list[$eno][7] . '<br>';
       $result_log[$eno] .= '第三試合： 壱の剣 ' . $sword_list[$eno][8] . '　弐の剣 ' . $sword_list[$eno][9] . '　参の剣 ' . $sword_list[$eno][10] . '　死の剣 ' . $sword_list[$eno][11] . '<br>';
       $result_log[$eno] .= '<br><a href="battle' . $eno . '.html">戦闘結果はこちら</a>';
-      $battle_log[$eno] = '<h1><a href="chara' . $eno . '.html">戦闘結果</a></h1><a href="../index.html"><img src="../logo1.png" /></a><br>' . "\n";
+      $battle_log[$eno] = '<h1><a href="chara' . $eno . '.html">戦闘結果' . TOP_TITLE . '</a></h1><a href="../index.html"><img src="../logo1.png" /></a><br>' . "\n";
     }
   }
 }
 for ($eno = 1; $eno < $data_len; $eno++) {
-  $result_log[$eno] .= '<h2>リンク</h2><a href="charalist.html">キャラクターリスト</a>';
+  $result_log[$eno] .= '<h2>リンク</h2><a href="charalist.html">キャラクターリスト</a>　<a href="ranking.html">ランキング</a>';
 }
 echo "==== action end ====\n";
 
@@ -240,12 +241,12 @@ for ($eno = 1; $eno < $data_len; $eno++) {
   }
   $battle_log[$eno] .= '<br>' . $battle_result[$eno][2] . '勝 ' . $battle_result[$eno][0] . '敗 ' . $battle_result[$eno][1] . '引き分け　　オーバーキルボーナス ' . $battle_result[$eno][3];
   $battle_log[$eno] .= '<br><br><a href="chara' . $eno . '.html">キャラページに戻る</a>';
-  $battle_log[$eno] .= '&nbsp;&nbsp;<a href="charalist.html">キャラクターリスト</a>';
-  file_put_contents(DIR_RESULT . '/battle' . $eno . '.html', wrap_html('戦闘結果', $battle_log[$eno]));
+  $battle_log[$eno] .= '　<a href="charalist.html">キャラクターリスト</a>　<a href="ranking.html">ランキング</a>';
+  file_put_contents(DIR_RESULT . '/battle' . $eno . '.html', wrap_html('戦闘結果' . TOP_TITLE, $battle_log[$eno]));
 }
 
 //ランキング
-$ranking_log = '<h1>ランキング</h1><a href="../index.html"><img src="../logo1.png" /></a><br>';
+$ranking_log = '<h1>ランキング' . TOP_TITLE . '</h1><a href="../index.html"><img src="../logo1.png" /></a><br>';
 $ranking = bubble_sort($ranking);
 $no = 1;
 for ($i = 0; $i < count($ranking); $i++) {
@@ -259,14 +260,14 @@ for ($i = 0; $i < count($ranking); $i++) {
 }
 $ranking_log .= '<br>※勝利 2point　引き分け 1point　としてランキングを作成<br>';
 $ranking_log .= '<br><a href="charalist.html">キャラクターリスト</a>';
-file_put_contents(DIR_RESULT . '/ranking.html', wrap_html('ランキング', $ranking_log));
+file_put_contents(DIR_RESULT . '/ranking.html', wrap_html('ランキング' . TOP_TITLE, $ranking_log));
 
 echo "==== battle end ====\n";
 
 // 結果出力
 
 echo "==== result start ====\n";
-$charlist_log = '<h1>キャラクターリスト</h1><a href="../index.html"><img src="../logo1.png" /></a><br>';
+$charlist_log = '<h1>キャラクターリスト' . TOP_TITLE . '</h1><a href="../index.html"><img src="../logo1.png" /></a><br>';
 $result_len = count($data_eno);
 for ($eno = 1; $eno < $result_len; $eno++) {
   if (!($data_eno[$eno][0])) {
@@ -276,7 +277,7 @@ for ($eno = 1; $eno < $result_len; $eno++) {
   $charlist_log .= '<a href="chara' . $eno . '.html">' . "Eno.$eno " . htmlspecialchars($data_eno[$eno][0]) . "</a><br>\n";
 }
 $charlist_log .= '<br><a href="ranking.html">ランキング</a>';
-file_put_contents('result/charalist.html', wrap_html('キャラクターリスト', $charlist_log));
+file_put_contents('result/charalist.html', wrap_html('キャラクターリスト' . TOP_TITLE, $charlist_log));
 echo "==== result end ====\n";
 
 echo "==== TEIKI SAMPLE ver" . APP_VERSION . " END ====\n";
