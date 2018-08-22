@@ -185,10 +185,10 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] .= "<h2>" . $nick_map[$eno] . "の日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
     } else if ($action == 3) {
       $result_log[$eno] .= "<h2>プロフィール</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
+    } else if ($action == 4) {
       if ($story) {
         $result_log[$eno] .= '<h2>ストーリー</h2>' . $story;
       }
-    } else if ($action == 4) {
       $result_log[$eno] .= '<h2>剣と戦闘</h2>';
       $sword_list[$eno] = preg_split('/：/', $action_value);
       $result_log[$eno] .= '第一試合： 壱の剣 ' . $sword_list[$eno][0] . '　弐の剣 ' . $sword_list[$eno][1] . '　参の剣 ' . $sword_list[$eno][2] . '　死の剣 ' . $sword_list[$eno][3] . '<br>';
