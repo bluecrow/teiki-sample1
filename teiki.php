@@ -90,6 +90,7 @@ function do_battle($eno, $eno2) {
         //死の剣
         if ($win == 0) {
           $battle_log[$eno] .= "引き分けのため死の剣は振るわれなかった……<br>";
+          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
         } else if ($win > 0) {
           $battle_log[$eno] .= $nick_map[$eno] . "の死の剣!! $sword1 のダメージを与えた!!<br>";
           $life2 -= $sword1;
@@ -97,10 +98,10 @@ function do_battle($eno, $eno2) {
           if ($life2 <= 0) {
             $result[0] = 2;
             $result[1] = 0;
-            if ($life2 <= -3) {
+            if ($life2 <= -6) {
               $battle_log[$eno] .= "オーバーキル!! ブースト!!<br>";
               $result[1] = 2;
-            } else if ($life2 <= -2) {
+            } else if ($life2 <= -4) {
               $battle_log[$eno] .= "オーバーキル!!<br>";
               $result[1] = 1;
             }
@@ -121,7 +122,6 @@ function do_battle($eno, $eno2) {
       }
     }
   }
-  $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
   if ($life1 == $life2) {
     $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に引き分けた!!<br>";
     $result[0] = 1;
