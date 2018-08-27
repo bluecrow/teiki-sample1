@@ -31,13 +31,13 @@ $profile = $_POST['profile'];
 $sword = $_POST['sword'];
 
 //データが正常かチェック
-if (isset($eno) && strlen($eno) >= 1 && isntTab($eno)
-    && isset($password) && strlen($password) >= 8 && isntTab($password)
-    && isset($name) && strlen($name) >= 1 && isntTab($name)
-    && isset($nick) && strlen($nick) >= 1 && isntTab($nick)
-    && isset($diary) && strlen($diary) <= 4000 && isntTab($diary)
-    && isset($profile) && strlen($profile) <= 4000 && isntTab($profile)
-    && isset($sword) && strlen($sword) >= 1 && isntTab($sword)) {
+if (isset($eno) && mb_strlen($eno) >= 1 && isntTab($eno)
+    && isset($password) && mb_strlen($password) >= 8 && isntTab($password)
+    && isset($name) && mb_strlen($name) >= 1 && isntTab($name)
+    && isset($nick) && mb_strlen($nick) >= 1 && isntTab($nick)
+    && isset($diary) && mb_strlen($diary) <= 4000 && isntTab($diary)
+    && isset($profile) && mb_strlen($profile) <= 4000 && isntTab($profile)
+    && isset($sword) && mb_strlen($sword) >= 1 && isntTab($sword)) {
 
 	//剣の数は12個か？
 	$sword_list = preg_split("/：/", $sword);
