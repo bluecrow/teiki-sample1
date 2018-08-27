@@ -48,17 +48,17 @@ function do_battle($eno, $eno2) {
     $sword_sum1 += $sword_list1[$i];
     $sword_sum2 += $sword_list2[$i];
   }
-  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $nick_map[$eno] . 'とENo.' . $eno2 . ' ' . $nick_map[$eno2] . "の一騎打ちだ!!</h2>";
+  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $nick_map[$eno] . 'とENo.' . $eno2 . ' ' . $nick_map[$eno2] . 'の一騎打ちだ!!</h2>';
   //両者宣言なし
   if ($sword_sum1 == 0 && $sword_sum2 == 0) {
-    $battle_log[$eno] .= "両者は剣を構えていない。引き分け!!<br>";
+    $battle_log[$eno] .= '両者は剣を構えていない。引き分け!!<br>';
     $result[0] = 1;
     $result[1] = 0;
     return $result;
   }
   //不戦勝
   if ($sword_sum1 > 0 && $sword_sum2 == 0) {
-    $battle_log[$eno] .= "相手は剣を構えていない。不戦勝!!<br>";
+    $battle_log[$eno] .= '相手は剣を構えていない。不戦勝!!<br>';
     $result[0] = 9;
     $result[1] = 0;
     return $result;
@@ -69,10 +69,10 @@ function do_battle($eno, $eno2) {
     for ($j = 0; $j < 4; $j++) {
       $sword1 = $sword_list1[$i + $j];
       $sword2 = $sword_list2[$i + $j];
-      if ($sword1 == null || $sword1 == "") {
+      if ($sword1 == null || $sword1 == '') {
         $sword1 = 0;
       }
-      if ($sword2 == null || $sword2 == "") {
+      if ($sword2 == null || $sword2 == '') {
         $sword2 = 0;
       }
       if ($j < 3) {
@@ -89,31 +89,31 @@ function do_battle($eno, $eno2) {
       } else {
         //死の剣
         if ($win == 0) {
-          $battle_log[$eno] .= "引き分けのため死の剣は振るわれなかった……<br>";
-          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+          $battle_log[$eno] .= '引き分けのため死の剣は振るわれなかった……<br>';
+          $battle_log[$eno] .= '残ライフ' . $life1 . ' と 残ライフ' . $life2 . '<br>';
         } else if ($win > 0) {
           $battle_log[$eno] .= $nick_map[$eno] . "の死の剣!! $sword1 のダメージを与えた!!<br>";
           $life2 -= $sword1;
-          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+          $battle_log[$eno] .= '残ライフ' . $life1 . ' と 残ライフ' . $life2 . '<br>';
           if ($life2 <= 0) {
             $result[0] = 2;
             $result[1] = 0;
             if ($life2 <= -6) {
-              $battle_log[$eno] .= "オーバーキル!! ブースト!!<br>";
+              $battle_log[$eno] .= 'オーバーキル!! ブースト!!<br>';
               $result[1] = 2;
             } else if ($life2 <= -4) {
-              $battle_log[$eno] .= "オーバーキル!!<br>";
+              $battle_log[$eno] .= 'オーバーキル!!<br>';
               $result[1] = 1;
             }
-            $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に勝利した!!<br>";
+            $battle_log[$eno] .= 'あなたは' . $nick_map[$eno2] . 'に勝利した!!<br>';
             return $result;
           }
         } else if ($win < 0) {
           $battle_log[$eno] .= $nick_map[$eno2] . "の死の剣!! $sword2 のダメージを受けた!!<br>";
           $life1 -= $sword2;
-          $battle_log[$eno] .= "残ライフ" . $life1 . " と 残ライフ" . $life2 . "<br>";
+          $battle_log[$eno] .= '残ライフ' . $life1 . ' と 残ライフ' . $life2 . '<br>';
           if ($life1 <= 0) {
-            $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に敗北した……<br>";
+            $battle_log[$eno] .= 'あなたは' . $nick_map[$eno2] . 'に敗北した……<br>';
             $result[0] = 0;
             $result[1] = 0;
             return $result;
@@ -123,17 +123,17 @@ function do_battle($eno, $eno2) {
     }
   }
   if ($life1 == $life2) {
-    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に引き分けた!!<br>";
+    $battle_log[$eno] .= 'あなたは' . $nick_map[$eno2] . 'に引き分けた!!<br>';
     $result[0] = 1;
     $result[1] = 0;
     return $result;
   } else if ($life1 > $life2) {
-    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に勝利した!!<br>";
+    $battle_log[$eno] .= 'あなたは' . $nick_map[$eno2] . 'に勝利した!!<br>';
     $result[0] = 2;
     $result[1] = 0;
     return $result;
   } else if ($life1 < $life2) {
-    $battle_log[$eno] .= "あなたは" . $nick_map[$eno2] . "に敗北した……<br>";
+    $battle_log[$eno] .= 'あなたは' . $nick_map[$eno2] . 'に敗北した……<br>';
     $result[0] = 0;
     $result[1] = 0;
     return $result;
@@ -187,9 +187,9 @@ for ($action = 0; $action < $action_len; $action++) {
       $result_log[$eno] .= "<h1>ENo.$eno " . htmlspecialchars($data_eno[$eno][0]) . 'の日誌' .  TOP_TITLE . '</h1><a href="../index.html"><img src="../logo1.png" /></a><br>' . "\n";
       $nick_map[$eno] = htmlspecialchars($action_value);
     } else if ($action == 2) {
-      $result_log[$eno] .= "<h2>" . $nick_map[$eno] . "の日記</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
+      $result_log[$eno] .= '<h2>' . $nick_map[$eno] . 'の日記</h2><pre>' . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . '</pre>';
     } else if ($action == 3) {
-      $result_log[$eno] .= "<h2>プロフィール</h2><pre>" . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . "</pre>";
+      $result_log[$eno] .= '<h2>プロフィール</h2><pre>' . str_replace('+BR+', '<br>', htmlspecialchars($action_value)) . '</pre>';
     } else if ($action == 4) {
       if ($story) {
         $result_log[$eno] .= '<h2>ストーリー</h2>' . $story;
@@ -270,7 +270,10 @@ for ($i = 0; $i < count($ranking); $i++) {
   if ($name_map[$eno] == '') {
     continue;
   }
-  $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point<br>";
+  $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point ";
+  $ranking_log .= '['.$sword_list[$eno][0].'-'.$sword_list[$eno][1].'-'.$sword_list[$eno][2].'-'.$sword_list[$eno][3].']';
+  $ranking_log .= '['.$sword_list[$eno][4].'-'.$sword_list[$eno][5].'-'.$sword_list[$eno][6].'-'.$sword_list[$eno][7].']';
+  $ranking_log .= '['.$sword_list[$eno][8].'-'.$sword_list[$eno][9].'-'.$sword_list[$eno][10].'-'.$sword_list[$eno][11].']<br>';
   $no++;
 }
 $ranking_log .= '<br>※勝利 2point　引き分け 1point　オーバーキルボーナスを加算してランキングを作成<br>';
