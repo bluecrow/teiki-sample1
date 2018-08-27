@@ -262,6 +262,7 @@ for ($eno = 1; $eno < $data_len; $eno++) {
 
 //ランキング
 $ranking_log = '<h1>ランキング' . TOP_TITLE . '</h1><a href="../index.html"><img src="../logo1.png" /></a><br>';
+$ranking_log .= '<table><tr><th>順位</th><th>ENo.と名前</th><th>point</th><th>剣の構成</th></tr>';
 $ranking = bubble_sort($ranking);
 $no = 1;
 for ($i = 0; $i < count($ranking); $i++) {
@@ -270,12 +271,16 @@ for ($i = 0; $i < count($ranking); $i++) {
   if ($name_map[$eno] == '') {
     continue;
   }
-  $ranking_log .= 'No.' . $no . ' <a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a> $point point ";
+  $ranking_log .= '<tr>';
+  $ranking_log .= '<td>No.' . $no . '</td><td><a href="chara' . $eno . '.html">' . "ENo.$eno " . $name_map[$eno] . "</a></td><td>$point point</td>";
+  $ranking_log .= '<td>&nbsp;&nbsp;&nbsp;&nbsp;';
   $ranking_log .= '['.$sword_list[$eno][0].'-'.$sword_list[$eno][1].'-'.$sword_list[$eno][2].'-'.$sword_list[$eno][3].']';
   $ranking_log .= '['.$sword_list[$eno][4].'-'.$sword_list[$eno][5].'-'.$sword_list[$eno][6].'-'.$sword_list[$eno][7].']';
   $ranking_log .= '['.$sword_list[$eno][8].'-'.$sword_list[$eno][9].'-'.$sword_list[$eno][10].'-'.$sword_list[$eno][11].']<br>';
+  $ranking_log .= '</td></tr>';
   $no++;
 }
+$ranking_log .= '</table>';
 $ranking_log .= '<br>※勝利 2point　引き分け 1point　オーバーキルボーナスを加算してランキングを作成<br>';
 $ranking_log .= '<br><a href="charalist.html">キャラクターリスト</a>';
 file_put_contents(DIR_RESULT . '/ranking.html', wrap_html('ランキング' . TOP_TITLE, $ranking_log));
