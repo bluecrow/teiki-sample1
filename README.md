@@ -19,8 +19,11 @@
 
 継続処理をするには以下のようにします。
 
-    php teiki.php
+    １．wwwフォルダのkeizoku.cgiを採取します
+    ２．php teiki.php を実行します
+    ３．resultフォルダをwwwフォルダに移動します
 
-UIは以下に置いてあります。
+ゲームは以下に置いてあります。
 
     http://www.arkhamsoft.jp/4th_sword/
+
