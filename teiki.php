@@ -48,7 +48,7 @@ function do_battle($eno, $eno2) {
     $sword_sum1 += $sword_list1[$i];
     $sword_sum2 += $sword_list2[$i];
   }
-  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $nick_map[$eno] . 'とENo.' . $eno2 . ' ' . $nick_map[$eno2] . 'の一騎打ちだ!!</h2>';
+  $battle_log[$eno] .= '<h2>ENo.' . $eno . ' ' . $nick_map[$eno] . 'と<a href="chara' . $eno2 . '.html">ENo.' . $eno2 . ' ' . $nick_map[$eno2] . '</a>の一騎打ちだ!!</h2>';
   //両者宣言なし
   if ($sword_sum1 == 0 && $sword_sum2 == 0) {
     $battle_log[$eno] .= '両者は剣を構えていない。引き分け!!<br>';
