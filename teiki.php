@@ -147,7 +147,7 @@ echo "==== TEIKI SAMPLE ver" . APP_VERSION . " START ====\n";
 echo "==== data start ====\n";
 $data_file = file_get_contents('keizoku.cgi');
 if ($data_file === false) {
-  exit('data failed');
+  exit('Warning: Put keizoku.cgi in this folder from www.');
 }
 $data_line = preg_split('/\r?\n/', $data_file);
 if ($data_line === false) {
