@@ -4,6 +4,10 @@ function isntTab($var) {
   return 1 != preg_match('/[\t\r\n]/', $var, $matches);
 }
 
+function j($var) {
+	return json_encode($var);
+}
+
 //パラメタ
 $eno = $_POST['eno'];
 $password = $_POST['password'];
@@ -21,7 +25,7 @@ if (isset($eno) && strlen($eno) >= 1 && isntTab($eno)
 		$keizoku_list = preg_split("/\r?\n/", $keizoku_data);
 		$keizoku_eno = preg_split("/\t/", $keizoku_list[$eno]);
 		header('Content-Type: application/json');
-		echo '{ "ENo": "' . $eno . '", "name": "' . $keizoku_eno[0] . '", "nick": "' . $keizoku_eno[1] . '", "diary": "' . $keizoku_eno[2] . '", "profile": "' . $keizoku_eno[3] . '", "sword": "' . $keizoku_eno[4] . '" }';
+		echo '{ "ENo": ' . j($eno) . ', "name": ' . j($keizoku_eno[0]) . ', "nick": ' . j($keizoku_eno[1]) . ', "diary": ' . j($keizoku_eno[2]) . ', "profile": ' . j($keizoku_eno[3]) . ', "sword": ' . j($keizoku_eno[4]) . ' }';
 	} else {
 		//データが異常ならば、エラーを返す
 		http_response_code(500);
