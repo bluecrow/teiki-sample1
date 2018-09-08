@@ -19,9 +19,10 @@
 
 継続処理をするには以下のようにします。
 
-    １．wwwフォルダのkeizoku.cgiを採取します
+    １．wwwフォルダのkeizoku.cgiを採取して、teiki.phpと同じフォルダに置きます
     ２．php teiki.php を実行します
     ３．resultフォルダをwwwフォルダに移動します
+    ４．www/resultフォルダをアップロードします
 
 ゲームは以下に置いてあります。
 
